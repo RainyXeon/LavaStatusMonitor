@@ -1,0 +1,18 @@
+# Cylane config file via .yaml
+# Version 3.0
+# You can use ${} to pass an enviroment varible from .env file
+# Eg:
+# something: ${DATA}
+
+bot:
+  TOKEN: "Your token"
+  EMBED_COLOR: "#2b2d31"
+  OWNER_ID: "Your id"
+  DEBUG_MODE: false
+
+features:
+  MESSAGE_CONTENT:
+    enable: true
+    commands:
+      enable: true
+      prefix: "d!" # The prefix you want
