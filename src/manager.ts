@@ -1,26 +1,26 @@
-import {
-  Client,
-  GatewayIntentBits,
-  Collection,
-  ColorResolvable,
-} from "discord.js";
+import { Client, GatewayIntentBits, ColorResolvable } from "discord.js";
 import { ConfigDataService } from "./services/ConfigDataService.js";
 import { LoggerService } from "./services/LoggerService.js";
-import { ClusterClient, getInfo } from "discord-hybrid-sharding";
+import { ClusterClient } from "discord-hybrid-sharding";
 import { Metadata } from "./@types/Metadata.js";
 import { ManifestService } from "./services/ManifestService.js";
 import { Config } from "./@types/Config.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
 import utils from "node:util";
-import { DeployService } from "./services/DeployService.js";
-import { Command } from "./structures/Command.js";
-config();
-
+import { QuickDB, JSONDriver } from "quick.db";
+import {
+  Shoukaku,
+  Connectors,
+  NodeOption as ShoukakuNodeOptions,
+} from "shoukaku";
+import {
+  Manager as Magmastream,
+  NodeOptions as MagmastreamNodeOptions,
+} from "magmastream";
 const loggerService = new LoggerService().init();
 const configData = new ConfigDataService().data;
-
-loggerService.info("Booting client...");
+config();
 
 export class Manager extends Client {
   // Interface
@@ -30,48 +30,76 @@ export class Manager extends Client {
   logger: any;
   owner: string;
   color: ColorResolvable;
-  prefix: string;
   shard_status: boolean;
-  commands: Collection<string, Command>;
-  aliases: Collection<string, string>;
   cluster?: ClusterClient<Client>;
+  db: QuickDB;
+  magmastream: Magmastream;
+  shoukaku: Shoukaku;
 
   // Main class
   constructor() {
     super({
       // shards: getInfo().SHARD_LIST, // An array of shards that will get spawned
       // shardCount: getInfo().TOTAL_SHARDS, // Total number of shards
-      shards: process.env.IS_SHARING == "true" ? getInfo().SHARD_LIST : "auto",
-      shardCount: process.env.IS_SHARING == "true" ? getInfo().TOTAL_SHARDS : 1,
+      shards: "auto",
       allowedMentions: {
         parse: ["roles", "users", "everyone"],
         repliedUser: false,
       },
-      intents: configData.features.MESSAGE_CONTENT.enable
-        ? [
-            GatewayIntentBits.Guilds,
-            GatewayIntentBits.GuildVoiceStates,
-            GatewayIntentBits.GuildMessages,
-            GatewayIntentBits.MessageContent,
-          ]
-        : [
-            GatewayIntentBits.Guilds,
-            GatewayIntentBits.GuildVoiceStates,
-            GatewayIntentBits.GuildMessages,
-          ],
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildMessages,
+      ],
     });
+    loggerService.info("Booting client...");
     this.logger = loggerService;
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
     this.token = this.config.bot.TOKEN;
     this.owner = this.config.bot.OWNER_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
-    this.prefix = this.config.features.MESSAGE_CONTENT.commands.prefix || "d!";
     this.shard_status = false;
+    this.db = new QuickDB({
+      driver: new JSONDriver("./database.json"),
+      table: "master",
+    });
 
-    // Collections
-    this.commands = new Collection();
-    this.aliases = new Collection();
+    const lavaV3: ShoukakuNodeOptions[] = [];
+    const lavaV4: MagmastreamNodeOptions[] = [];
+
+    for (const lava_data of this.config.bot.NODES) {
+      if (lava_data.version == 3)
+        lavaV3.push({
+          name: lava_data.name,
+          auth: lava_data.auth,
+          url: `${lava_data.host}:${lava_data.port}`,
+          secure: lava_data.secure,
+        });
+      else
+        lavaV4.push({
+          secure: lava_data.secure,
+          host: lava_data.host,
+          port: lava_data.port,
+          password: lava_data.auth,
+          identifier: lava_data.name,
+          retryAmount: 10,
+          retryDelay: 5000,
+        });
+    }
+
+    this.shoukaku = new Shoukaku(new Connectors.DiscordJS(this), lavaV3, {
+      reconnectTries: 10,
+      restTimeout: 5000,
+    });
+
+    this.magmastream = new Magmastream({
+      nodes: lavaV4,
+      send: (id, payload) => {
+        const guild = this.guilds.cache.get(id);
+        if (guild) guild.shard.send(payload);
+      },
+    });
 
     // Sharing
     this.cluster =
@@ -84,11 +112,22 @@ export class Manager extends Client {
       this.logger.log({ level: "error", message: utils.inspect(error) })
     );
 
-    new DeployService(this);
     new initHandler(this);
   }
 
   connect() {
     super.login(this.token);
+  }
+
+  configChecker() {
+    if (!configData.bot.CHANNEL_ID) {
+      throw new Error("app.yml must have CHANNEL_ID");
+      process.exit();
+    }
+
+    if (!configData.bot.NODES || configData.bot.NODES.length == 0) {
+      throw new Error("app.yml must have NODES data");
+      process.exit();
+    }
   }
 }

@@ -1,6 +1,5 @@
 export interface Config {
   bot: Bot;
-  features: Features;
 }
 
 export interface Bot {
@@ -8,18 +7,20 @@ export interface Bot {
   EMBED_COLOR: string;
   OWNER_ID: string;
   DEBUG_MODE: boolean;
-}
-
-export interface Features {
-  MESSAGE_CONTENT: MessageContent;
-}
-
-export interface MessageContent {
-  enable: boolean;
-  commands: Commands;
+  CHANNEL_ID: string;
+  NODES: NODE_CREDENTIALS[];
 }
 
 export interface Commands {
   enable: boolean;
   prefix: string;
+}
+
+export interface NODE_CREDENTIALS {
+  name: string;
+  host: string;
+  port: number;
+  version: number;
+  auth: string;
+  secure: boolean;
 }
