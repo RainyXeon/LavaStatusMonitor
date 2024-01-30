@@ -25,6 +25,7 @@ export class EmbedServices {
           Playing players | ${data.stats.playingPlayers}
           System load     | ${data.stats.cpu.systemLoad.toFixed(2)}%
           Lavalink load   | ${data.stats.cpu.lavalinkLoad.toFixed(2)}%
+          Memory usage    | ${(data.stats?.memory.used / 1024 / 1024).toFixed(2)} / ${(data.stats?.memory.allocated / 1024 / 1024).toFixed(2)} (MB)
           Uptime          | ${prettyMilliseconds(data.stats.uptime)}
         \`\`\`
         **📜 | Credentials**
@@ -53,6 +54,7 @@ export class EmbedServices {
             Playing players | ${data.stats.playingPlayers}
             System load     | ${data.stats.cpu.systemLoad.toFixed(2)}%
             Lavalink load   | ${data.stats.cpu.lavalinkLoad.toFixed(2)}%
+            Memory usage    | ${(data.stats?.memory.used / 1024 / 1024).toFixed(2)} / ${(data.stats?.memory.allocated / 1024 / 1024).toFixed(2)} (MB)
             Uptime          | ${prettyMilliseconds(data.stats.uptime)}
           \`\`\`
           **📜 | Credentials**
@@ -87,6 +89,7 @@ export class EmbedServices {
           Playing players | ${data.stats?.playingPlayers}
           System load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
           Lavalink load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+          Memory usage    | ${(Number(data.stats?.memory.used) / 1024 / 1024).toFixed(2)} / ${(Number(data.stats?.memory.allocated) / 1024 / 1024).toFixed(2)} (MB)
           Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
         \`\`\`
         **📜 | Credentials**
@@ -115,6 +118,7 @@ export class EmbedServices {
             Playing players | ${data.stats?.playingPlayers}
             System load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
             Lavalink load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+            Memory usage    | ${(Number(data.stats?.memory.used) / 1024 / 1024).toFixed(2)} / ${(Number(data.stats?.memory.allocated) / 1024 / 1024).toFixed(2)} (MB)
             Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
           \`\`\`
           **📜 | Credentials**
