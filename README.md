@@ -1,6 +1,6 @@
-# lava-checker
+# LavaStatusMonitor
 
-Lavalink check bot. Private use only :p.
+Lavalink usage check bot. Private use only :p.
 
 # Install
 
