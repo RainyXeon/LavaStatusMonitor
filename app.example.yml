@@ -1,9 +1,10 @@
 bot:
-  TOKEN: "Your token"
+  TOKEN: "Bot Token"
+  CHANNEL_ID: "Channel ID"
+  OWNER_ID: "Your User ID"
   EMBED_COLOR: "#2b2d31"
-  OWNER_ID: "Your id"
   DEBUG_MODE: false
-  CHANNEL_ID: ""
+  # You can check status of multiple nodes
   NODES: 
     - name: "Zoldy's Lavalink v3"
       host: "139.99.124.43"

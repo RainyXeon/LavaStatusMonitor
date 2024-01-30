@@ -36,7 +36,7 @@ Check `/app.example.yml`
 
 # Optional
 
-You can change version in "/src/manifest.xml"
+You can change version in `/src/manifest.xml`
 
 # Note
 
