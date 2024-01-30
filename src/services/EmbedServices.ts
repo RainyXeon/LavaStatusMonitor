@@ -20,6 +20,7 @@ export class EmbedServices {
           new EmbedBuilder()
             .setAuthor({ name: `${data.options.identifier} (v4.0.0)` })
             .setDescription(this.magmaStreamStatusGen(data))
+            .setColor(client.color)
             .setTimestamp(),
         ],
       });
@@ -31,6 +32,7 @@ export class EmbedServices {
             new EmbedBuilder()
               .setAuthor({ name: `${data.options.identifier} (v4.0.0)` })
               .setDescription(this.magmaStreamStatusGen(data))
+              .setColor(client.color)
               .setTimestamp(),
           ],
         });
@@ -46,6 +48,7 @@ export class EmbedServices {
           new EmbedBuilder()
             .setAuthor({ name: `${data.name} (v3.0.0)` })
             .setDescription(this.shoukakuStatusGen(data))
+            .setColor(client.color)
             .setTimestamp(),
         ],
       });
@@ -57,6 +60,7 @@ export class EmbedServices {
             new EmbedBuilder()
               .setAuthor({ name: `${data.name} (v3.0.0)` })
               .setDescription(this.shoukakuStatusGen(data))
+              .setColor(client.color)
               .setTimestamp(),
           ],
         });
