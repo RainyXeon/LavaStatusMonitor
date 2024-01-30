@@ -2,7 +2,7 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 import { Manager } from "../../manager.js";
 import { stripIndents } from "common-tags";
 import prettyMilliseconds from "pretty-ms";
-import { EmbedServices } from "../../services/EmbedServices.js";
+import { EmbedService } from "../../services/EmbedService.js";
 
 export default class {
   async execute(client: Manager) {
@@ -30,6 +30,6 @@ export default class {
       process.exit();
     }
 
-    new EmbedServices(client, fetchChannel as TextChannel);
+    new EmbedService(client, fetchChannel as TextChannel);
   }
 }

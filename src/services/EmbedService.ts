@@ -6,7 +6,7 @@ import { URL } from "url";
 import { Node as ShoukakuNode } from "shoukaku";
 import { Node as MagmastreamNode } from "magmastream";
 
-export class EmbedServices {
+export class EmbedService {
   constructor(client: Manager, fetchChannel: TextChannel) {
     this.magmaStream(client, fetchChannel);
     this.shoukaku(client, fetchChannel);
@@ -18,7 +18,7 @@ export class EmbedServices {
       const msg = await fetchChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setAuthor({ name: `${data.options.identifier} (v4.0.0)` })
+            .setAuthor({ name: `${data.options.identifier}` })
             .setDescription(this.magmaStreamStatusGen(data))
             .setColor(client.color)
             .setTimestamp(),
@@ -30,7 +30,7 @@ export class EmbedServices {
         msg.edit({
           embeds: [
             new EmbedBuilder()
-              .setAuthor({ name: `${data.options.identifier} (v4.0.0)` })
+              .setAuthor({ name: `${data.options.identifier}` })
               .setDescription(this.magmaStreamStatusGen(data))
               .setColor(client.color)
               .setTimestamp(),
@@ -46,7 +46,7 @@ export class EmbedServices {
       const msg = await fetchChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setAuthor({ name: `${data.name} (v3.0.0)` })
+            .setAuthor({ name: `${data.name}` })
             .setDescription(this.shoukakuStatusGen(data))
             .setColor(client.color)
             .setTimestamp(),
@@ -58,7 +58,7 @@ export class EmbedServices {
         msg.edit({
           embeds: [
             new EmbedBuilder()
-              .setAuthor({ name: `${data.name} (v3.0.0)` })
+              .setAuthor({ name: `${data.name}` })
               .setDescription(this.shoukakuStatusGen(data))
               .setColor(client.color)
               .setTimestamp(),
