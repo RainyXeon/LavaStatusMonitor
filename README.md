@@ -1,6 +1,6 @@
-# Mutsuki framework
+# lava-checker
 
-This is the framework that I used for RainyXeon/ByteBlaze discord bot. Inspired by Adivise/NanoSpace (Im not based in that).
+Lavalink check bot. Private use only :p.
 
 # Install
 
@@ -30,10 +30,14 @@ node build.mjs build
 npm run build:full
 ```
 
-# Commands
+# Config
 
-Check the `/src/commands` dir
+Check `/app.example.yml`
 
 # Optional
 
 You can change version in "/src/manifest.xml"
+
+# Note
+
+Bot will send new message every time run the bot

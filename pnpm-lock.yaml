@@ -58,9 +58,6 @@ dependencies:
   pretty-ms:
     specifier: ^8.0.0
     version: 8.0.0
-  quick.db:
-    specifier: ^9.1.7
-    version: 9.1.7
   recursive-readdir:
     specifier: ^2.2.3
     version: 2.2.3
@@ -1996,12 +1993,6 @@ packages:
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
-
-  /quick.db@9.1.7:
-    resolution: {integrity: sha512-ZLPVLVFZtvFRLHqIK99iyrLDUznOTpnp5tB+QpGErT+reDSvgBELuVsMkGSSiqKT9R2YSOhO+096Wb0xTaOHMA==}
-    dependencies:
-      lodash: 4.17.21
-    dev: false
 
   /read-pkg@3.0.0:
     resolution: {integrity: sha512-BLq/cCO9two+lBgiTYNqD6GdtK8s4NpaWrl6/rCO9w0TUS8oJl7cmToOZfRYllKTISY6nt1U7jQ53brmKqY6BA==}

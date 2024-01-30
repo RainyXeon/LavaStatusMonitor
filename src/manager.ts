@@ -8,7 +8,6 @@ import { Config } from "./@types/Config.js";
 import { config } from "dotenv";
 import { initHandler } from "./handlers/index.js";
 import utils from "node:util";
-import { QuickDB, JSONDriver } from "quick.db";
 import {
   Shoukaku,
   Connectors,
@@ -32,7 +31,6 @@ export class Manager extends Client {
   color: ColorResolvable;
   shard_status: boolean;
   cluster?: ClusterClient<Client>;
-  db: QuickDB;
   magmastream: Magmastream;
   shoukaku: Shoukaku;
 
@@ -60,10 +58,6 @@ export class Manager extends Client {
     this.owner = this.config.bot.OWNER_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.shard_status = false;
-    this.db = new QuickDB({
-      driver: new JSONDriver("./database.json"),
-      table: "master",
-    });
 
     const lavaV3: ShoukakuNodeOptions[] = [];
     const lavaV4: MagmastreamNodeOptions[] = [];

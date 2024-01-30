@@ -5,9 +5,17 @@ bot:
   DEBUG_MODE: false
   CHANNEL_ID: ""
   NODES: 
+    - name: "Zoldy's Lavalink v3"
+      host: "139.99.124.43"
+      port: 7779
+      version: 3
+      auth: "PasswordIsZoldy"
+      secure: false
+      
     - name: "Zoldy's Lavalink v4"
       host: "139.99.124.43"
       port: 7784
       version: 4
       auth: "PasswordIsZoldy"
       secure: false
+

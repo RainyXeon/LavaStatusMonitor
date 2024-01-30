@@ -57,7 +57,6 @@
     "os": "^0.1.2",
     "plsargs": "^0.1.6",
     "pretty-ms": "^8.0.0",
-    "quick.db": "^9.1.7",
     "recursive-readdir": "^2.2.3",
     "shoukaku": "v3.4.2",
     "stuffs": "^0.1.34",

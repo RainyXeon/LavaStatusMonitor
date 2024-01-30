@@ -18,7 +18,7 @@ export class EmbedService {
       const msg = await fetchChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setAuthor({ name: `${data.options.identifier}` })
+            .setAuthor({ name: `${data.options.identifier} [v4]` })
             .setDescription(this.magmaStreamStatusGen(data))
             .setColor(client.color)
             .setTimestamp(),
@@ -30,7 +30,7 @@ export class EmbedService {
         msg.edit({
           embeds: [
             new EmbedBuilder()
-              .setAuthor({ name: `${data.options.identifier}` })
+              .setAuthor({ name: `${data.options.identifier} [v4]` })
               .setDescription(this.magmaStreamStatusGen(data))
               .setColor(client.color)
               .setTimestamp(),
@@ -46,7 +46,7 @@ export class EmbedService {
       const msg = await fetchChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setAuthor({ name: `${data.name}` })
+            .setAuthor({ name: `${data.name} [v3]` })
             .setDescription(this.shoukakuStatusGen(data))
             .setColor(client.color)
             .setTimestamp(),
@@ -58,7 +58,7 @@ export class EmbedService {
         msg.edit({
           embeds: [
             new EmbedBuilder()
-              .setAuthor({ name: `${data.name}` })
+              .setAuthor({ name: `${data.name} [v3]` })
               .setDescription(this.shoukakuStatusGen(data))
               .setColor(client.color)
               .setTimestamp(),
@@ -99,20 +99,20 @@ export class EmbedService {
 
         CPU
         ├── Core            | ${data.stats?.cpu.cores}
-        ├── System load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-        └── Lavalink load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+        ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+        └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
 
-        Player count
-        ├── Total players   | ${data.stats?.players}
-        └── Playing players | ${data.stats?.playingPlayers}
+        Player Count
+        ├── Total Players   | ${data.stats?.players}
+        └── Used Players    | ${data.stats?.playingPlayers}
 
-        Memory usage
+        Memory Usage
         ├── Used            | ${lavaMem.used} (MB)
         ├── Free            | ${lavaMem.free} (MB)
         ├── Reservable      | ${lavaMem.reservable} (MB)
         └── Allocated       | ${lavaMem.allocated} (MB)
       \`\`\`
-      **📜 Credentials**
+      **🔑 Credentials**
       \`\`\`
         Host     | ${parsedCredentials.hostname}
         Port     | ${parsedCredentials.port}
@@ -134,20 +134,20 @@ export class EmbedService {
 
         CPU
         ├── Core            | ${data.stats?.cpu.cores}
-        ├── System load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-        └── Lavalink load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+        ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+        └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
 
-        Player count
-        ├── Total players   | ${data.stats?.players}
-        └── Playing players | ${data.stats?.playingPlayers}
+        Player Count
+        ├── Total Players   | ${data.stats?.players}
+        └── Used Players    | ${data.stats?.playingPlayers}
 
-        Memory usage
+        Memory Usage
         ├── Used            | ${lavaMem.used} (MB)
         ├── Free            | ${lavaMem.free} (MB)
         ├── Reservable      | ${lavaMem.reservable} (MB)
         └── Allocated       | ${lavaMem.allocated} (MB)
       \`\`\`
-      **📜 Credentials**
+      **🔑 Credentials**
       \`\`\`
         Host     | ${data.options.host}
         Port     | ${data.options.port}
