@@ -2,6 +2,7 @@ import { EmbedBuilder, TextChannel } from "discord.js";
 import { Manager } from "../manager.js";
 import { stripIndents } from "common-tags";
 import prettyMilliseconds from "pretty-ms";
+import { URL } from "url";
 
 export class EmbedServices {
   constructor(client: Manager, fetchChannel: TextChannel) {
@@ -71,28 +72,29 @@ export class EmbedServices {
   }
 
   shoukaku(client: Manager, fetchChannel: TextChannel) {
-    client.magmastream.nodes.map(async (data) => {
+    client.shoukaku.nodes.forEach(async (data) => {
+      const parsedCredentials = new URL(data["url"]);
       const msg = await fetchChannel.send({
         embeds: [
           new EmbedBuilder()
-            .setAuthor({ name: `${data.options.identifier} (v3.0.0)` })
+            .setAuthor({ name: `${data.name} (v3.0.0)` })
             .setDescription(
               stripIndents`
         **📊 | Status**
         \`\`\`
-          Status          | ${data.connected ? "Connected" : "Disconnected"}
-          Total players   | ${data.stats.players}
-          Playing players | ${data.stats.playingPlayers}
-          System load     | ${data.stats.cpu.systemLoad.toFixed(2)}%
-          Lavalink load   | ${data.stats.cpu.lavalinkLoad.toFixed(2)}%
-          Uptime          | ${prettyMilliseconds(data.stats.uptime)}
+          Status          | ${data.state == 1 ? "Connected" : "Disconnected"}
+          Total players   | ${data.stats?.players}
+          Playing players | ${data.stats?.playingPlayers}
+          System load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+          Lavalink load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+          Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
         \`\`\`
         **📜 | Credentials**
         \`\`\`
-          Host     | ${data.options.host}
-          Port     | ${data.options.port}
-          Password | ${data.options.password}
-          Secure   | ${data.options.secure}
+          Host     | ${parsedCredentials.hostname}
+          Port     | ${parsedCredentials.port}
+          Password | ${data["auth"]}
+          Secure   | ${parsedCredentials.protocol == "ws:" ? false : true}
         \`\`\`
         `
             )
@@ -103,24 +105,24 @@ export class EmbedServices {
         msg.edit({
           embeds: [
             new EmbedBuilder()
-              .setAuthor({ name: `${data.options.identifier} (v4.0.0)` })
+              .setAuthor({ name: `${data.name} (v3.0.0)` })
               .setDescription(
                 stripIndents`
           **📊 | Status**
           \`\`\`
-            Status          | ${data.connected ? "Connected" : "Disconnected"}
-            Total players   | ${data.stats.players}
-            Playing players | ${data.stats.playingPlayers}
-            System load     | ${data.stats.cpu.systemLoad.toFixed(2)}%
-            Lavalink load   | ${data.stats.cpu.lavalinkLoad.toFixed(2)}%
-            Uptime          | ${prettyMilliseconds(data.stats.uptime)}
+            Status          | ${data.state == 1 ? "Connected" : "Disconnected"}
+            Total players   | ${data.stats?.players}
+            Playing players | ${data.stats?.playingPlayers}
+            System load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+            Lavalink load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+            Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
           \`\`\`
           **📜 | Credentials**
           \`\`\`
-            Host     | ${data.options.host}
-            Port     | ${data.options.port}
-            Password | ${data.options.password}
-            Secure   | ${data.options.secure}
+            Host     | ${parsedCredentials.hostname}
+            Port     | ${parsedCredentials.port}
+            Password | ${data["auth"]}
+            Secure   | ${parsedCredentials.protocol == "ws:" ? false : true}
           \`\`\`
           `
               )
