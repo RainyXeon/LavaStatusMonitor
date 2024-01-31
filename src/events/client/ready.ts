@@ -14,11 +14,11 @@ export default class {
       client.user!.setPresence({
         activities: [
           {
-            name: `v${client.metadata.version}`,
-            type: 2,
+            name: `Lavalink Status`,
+            type: 3,
           },
         ],
-        status: "idle",
+        status: "online",
       });
     }, 15000);
 

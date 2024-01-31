@@ -75,30 +75,30 @@ export class EmbedService {
         **📊 Status**
         \`\`\`
           Current
-          ├── Status          | ${data.state == 1 ? "🟢 Online" : "🔴 Offline"}
-          └── Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
+          ├── Status        | ${data.state == 1 ? "🟢 Online" : "🔴 Offline"}
+          └── Uptime        | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
+
+          Player
+          ├── Total         | ${data.stats?.players}
+          └── Used          | ${data.stats?.playingPlayers}
   
           CPU
-          ├── Core            | ${data.stats?.cpu.cores}
-          ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-          └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+          ├── Core          | ${data.stats?.cpu.cores}
+          ├── System Load   | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+          └── Lavalink Load | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
   
-          Player Count
-          ├── Total Players   | ${data.stats?.players}
-          └── Used Players    | ${data.stats?.playingPlayers}
-  
-          Memory Usage
-          ├── Used            | ${lavaMem.used} (MB)
-          ├── Free            | ${lavaMem.free} (MB)
-          ├── Reservable      | ${lavaMem.reservable} (MB)
-          └── Allocated       | ${lavaMem.allocated} (MB)
+          Memory
+          ├── Used          | ${lavaMem.used} (MB)
+          ├── Free          | ${lavaMem.free} (MB)
+          ├── Reservable    | ${lavaMem.reservable} (MB)
+          └── Allocated     | ${lavaMem.allocated} (MB)
         \`\`\`
-        **🔑 Credentials**
+        **🔒 Credentials**
         \`\`\`
-          Host     | ${parsedCredentials.hostname}
-          Port     | ${parsedCredentials.port}
-          Password | ${data["auth"]}
-          Secure   | ${parsedCredentials.protocol == "ws:" ? false : true}
+          Host              | ${parsedCredentials.hostname}
+          Port              | ${parsedCredentials.port}
+          Password          | ${data["auth"]}
+          Secure            | ${parsedCredentials.protocol == "ws:" ? false : true}
         \`\`\`
       `
       )
@@ -116,30 +116,30 @@ export class EmbedService {
         **📊 Status**
         \`\`\`
           Current
-          ├── Status          | ${data.connected ? "🟢 Online" : "🔴 Offline"}
-          └── Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
+          ├── Status        | ${data.connected ? "🟢 Online" : "🔴 Offline"}
+          └── Uptime        | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
+
+          Player
+          ├── Total         | ${data.stats?.players}
+          └── Used          | ${data.stats?.playingPlayers}
 
           CPU
-          ├── Core            | ${data.stats?.cpu.cores}
-          ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-          └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+          ├── Core          | ${data.stats?.cpu.cores}
+          ├── System Load   | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+          └── Lavalink Load | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
 
-          Player Count
-          ├── Total Players   | ${data.stats?.players}
-          └── Used Players    | ${data.stats?.playingPlayers}
-
-          Memory Usage
-          ├── Used            | ${lavaMem.used} (MB)
-          ├── Free            | ${lavaMem.free} (MB)
-          ├── Reservable      | ${lavaMem.reservable} (MB)
-          └── Allocated       | ${lavaMem.allocated} (MB)
+          Memory
+          ├── Used          | ${lavaMem.used} (MB)
+          ├── Free          | ${lavaMem.free} (MB)
+          ├── Reservable    | ${lavaMem.reservable} (MB)
+          └── Allocated     | ${lavaMem.allocated} (MB)
         \`\`\`
-        **🔑 Credentials**
+        **🔒 Credentials**
         \`\`\`
-          Host     | ${data.options.host}
-          Port     | ${data.options.port}
-          Password | ${data.options.password}
-          Secure   | ${data.options.secure}
+          Host              | ${data.options.host}
+          Port              | ${data.options.port}
+          Password          | ${data.options.password}
+          Secure            | ${data.options.secure}
         \`\`\`
       `
       )

@@ -1,21 +1,20 @@
 bot:
   TOKEN: "Bot Token"
   CHANNEL_ID: "Channel ID"
-  EMBED_COLOR: "#2b2d31"
+  EMBED_COLOR: "#2B2D31"
   DEBUG_MODE: false
-  # You can check status of multiple nodes
+  # You can monitor status of multiple nodes
   NODES: 
-    - name: "Zoldy's Lavalink v3"
+    - name: "It'z Zoldy⚡"
       host: "139.99.124.43"
       port: 7779
       version: 3
       auth: "PasswordIsZoldy"
       secure: false
       
-    - name: "Zoldy's Lavalink v4"
+    - name: "It'z Zoldy⚡"
       host: "139.99.124.43"
       port: 7784
       version: 4
       auth: "PasswordIsZoldy"
       secure: false
-
