@@ -5,7 +5,7 @@ import prettyMilliseconds from "pretty-ms";
 import { URL } from "url";
 import { Node as ShoukakuNode } from "shoukaku";
 import { Node as MagmastreamNode } from "magmastream";
-import cron from "node-cron";
+import { Cron } from "croner";
 
 export class EmbedService {
   constructor(client: Manager, fetchChannel: TextChannel) {
@@ -22,7 +22,7 @@ export class EmbedService {
 
       // Update msg
 
-      cron.schedule("0 */1 * * * *", async () => {
+      Cron("0 */1 * * * *", { maxRuns: 1 }, async () => {
         msg.edit({
           embeds: [this.magmaStreamStatusGen(client, data)],
         });
@@ -38,7 +38,7 @@ export class EmbedService {
       });
 
       // Update msg
-      cron.schedule("0 */1 * * * *", async () => {
+      Cron("0 */1 * * * *", async () => {
         msg.edit({
           embeds: [this.shoukakuStatusGen(client, data)],
         });
