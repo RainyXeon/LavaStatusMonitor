@@ -5,6 +5,7 @@ import prettyMilliseconds from "pretty-ms";
 import { URL } from "url";
 import { Node as ShoukakuNode } from "shoukaku";
 import { Node as MagmastreamNode } from "magmastream";
+import cron from "node-cron";
 
 export class EmbedService {
   constructor(client: Manager, fetchChannel: TextChannel) {
@@ -16,27 +17,16 @@ export class EmbedService {
     client.magmastream.nodes.map(async (data) => {
       // Send msg
       const msg = await fetchChannel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: `${data.options.identifier} [v4]` })
-            .setDescription(this.magmaStreamStatusGen(data))
-            .setColor(client.color)
-            .setTimestamp(),
-        ],
+        embeds: [this.magmaStreamStatusGen(client, data)],
       });
 
       // Update msg
-      setInterval(() => {
+
+      cron.schedule("0 */1 * * * *", async () => {
         msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setAuthor({ name: `${data.options.identifier} [v4]` })
-              .setDescription(this.magmaStreamStatusGen(data))
-              .setColor(client.color)
-              .setTimestamp(),
-          ],
+          embeds: [this.magmaStreamStatusGen(client, data)],
         });
-      }, 5000);
+      });
     });
   }
 
@@ -44,27 +34,15 @@ export class EmbedService {
     client.shoukaku.nodes.forEach(async (data) => {
       // Send msg
       const msg = await fetchChannel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: `${data.name} [v3]` })
-            .setDescription(this.shoukakuStatusGen(data))
-            .setColor(client.color)
-            .setTimestamp(),
-        ],
+        embeds: [this.shoukakuStatusGen(client, data)],
       });
 
       // Update msg
-      setInterval(() => {
+      cron.schedule("0 */1 * * * *", async () => {
         msg.edit({
-          embeds: [
-            new EmbedBuilder()
-              .setAuthor({ name: `${data.name} [v3]` })
-              .setDescription(this.shoukakuStatusGen(data))
-              .setColor(client.color)
-              .setTimestamp(),
-          ],
+          embeds: [this.shoukakuStatusGen(client, data)],
         });
-      }, 5000);
+      });
     });
   }
 
@@ -86,74 +64,86 @@ export class EmbedService {
     };
   }
 
-  shoukakuStatusGen(data: ShoukakuNode): string {
+  shoukakuStatusGen(client: Manager, data: ShoukakuNode): EmbedBuilder {
     const parsedCredentials = new URL(data["url"]);
     const lavaMem = this.parseMemory(data.stats?.memory);
 
-    return stripIndents`
-      **📊 Status**
-      \`\`\`
-        Current
-        ├── Status          | ${data.state == 1 ? "🟢 Online" : "🔴 Offline"}
-        └── Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
-
-        CPU
-        ├── Core            | ${data.stats?.cpu.cores}
-        ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-        └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
-
-        Player Count
-        ├── Total Players   | ${data.stats?.players}
-        └── Used Players    | ${data.stats?.playingPlayers}
-
-        Memory Usage
-        ├── Used            | ${lavaMem.used} (MB)
-        ├── Free            | ${lavaMem.free} (MB)
-        ├── Reservable      | ${lavaMem.reservable} (MB)
-        └── Allocated       | ${lavaMem.allocated} (MB)
-      \`\`\`
-      **🔑 Credentials**
-      \`\`\`
-        Host     | ${parsedCredentials.hostname}
-        Port     | ${parsedCredentials.port}
-        Password | ${data["auth"]}
-        Secure   | ${parsedCredentials.protocol == "ws:" ? false : true}
-      \`\`\`
-    `;
+    return new EmbedBuilder()
+      .setAuthor({ name: `${data.name} [v3]` })
+      .setDescription(
+        stripIndents`
+        **📊 Status**
+        \`\`\`
+          Current
+          ├── Status          | ${data.state == 1 ? "🟢 Online" : "🔴 Offline"}
+          └── Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
+  
+          CPU
+          ├── Core            | ${data.stats?.cpu.cores}
+          ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+          └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+  
+          Player Count
+          ├── Total Players   | ${data.stats?.players}
+          └── Used Players    | ${data.stats?.playingPlayers}
+  
+          Memory Usage
+          ├── Used            | ${lavaMem.used} (MB)
+          ├── Free            | ${lavaMem.free} (MB)
+          ├── Reservable      | ${lavaMem.reservable} (MB)
+          └── Allocated       | ${lavaMem.allocated} (MB)
+        \`\`\`
+        **🔑 Credentials**
+        \`\`\`
+          Host     | ${parsedCredentials.hostname}
+          Port     | ${parsedCredentials.port}
+          Password | ${data["auth"]}
+          Secure   | ${parsedCredentials.protocol == "ws:" ? false : true}
+        \`\`\`
+      `
+      )
+      .setColor(client.color)
+      .setTimestamp();
   }
 
-  magmaStreamStatusGen(data: MagmastreamNode): string {
+  magmaStreamStatusGen(client: Manager, data: MagmastreamNode): EmbedBuilder {
     const lavaMem = this.parseMemory(data.stats?.memory);
 
-    return stripIndents`
-      **📊 Status**
-      \`\`\`
-        Current
-        ├── Status          | ${data.connected ? "🟢 Online" : "🔴 Offline"}
-        └── Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
+    return new EmbedBuilder()
+      .setAuthor({ name: `${data.options.identifier} [v4]` })
+      .setDescription(
+        stripIndents`
+        **📊 Status**
+        \`\`\`
+          Current
+          ├── Status          | ${data.connected ? "🟢 Online" : "🔴 Offline"}
+          └── Uptime          | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
 
-        CPU
-        ├── Core            | ${data.stats?.cpu.cores}
-        ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-        └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
+          CPU
+          ├── Core            | ${data.stats?.cpu.cores}
+          ├── System Load     | ${data.stats?.cpu.systemLoad.toFixed(2)}%
+          └── Lavalink Load   | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
 
-        Player Count
-        ├── Total Players   | ${data.stats?.players}
-        └── Used Players    | ${data.stats?.playingPlayers}
+          Player Count
+          ├── Total Players   | ${data.stats?.players}
+          └── Used Players    | ${data.stats?.playingPlayers}
 
-        Memory Usage
-        ├── Used            | ${lavaMem.used} (MB)
-        ├── Free            | ${lavaMem.free} (MB)
-        ├── Reservable      | ${lavaMem.reservable} (MB)
-        └── Allocated       | ${lavaMem.allocated} (MB)
-      \`\`\`
-      **🔑 Credentials**
-      \`\`\`
-        Host     | ${data.options.host}
-        Port     | ${data.options.port}
-        Password | ${data.options.password}
-        Secure   | ${data.options.secure}
-      \`\`\`
-    `;
+          Memory Usage
+          ├── Used            | ${lavaMem.used} (MB)
+          ├── Free            | ${lavaMem.free} (MB)
+          ├── Reservable      | ${lavaMem.reservable} (MB)
+          └── Allocated       | ${lavaMem.allocated} (MB)
+        \`\`\`
+        **🔑 Credentials**
+        \`\`\`
+          Host     | ${data.options.host}
+          Port     | ${data.options.port}
+          Password | ${data.options.password}
+          Secure   | ${data.options.secure}
+        \`\`\`
+      `
+      )
+      .setColor(client.color)
+      .setTimestamp();
   }
 }

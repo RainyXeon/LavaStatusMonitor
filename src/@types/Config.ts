@@ -5,7 +5,6 @@ export interface Config {
 export interface Bot {
   TOKEN: string;
   EMBED_COLOR: string;
-  OWNER_ID: string;
   DEBUG_MODE: boolean;
   CHANNEL_ID: string;
   NODES: NODE_CREDENTIALS[];

@@ -1,7 +1,6 @@
 bot:
   TOKEN: "Bot Token"
   CHANNEL_ID: "Channel ID"
-  OWNER_ID: "Your User ID"
   EMBED_COLOR: "#2b2d31"
   DEBUG_MODE: false
   # You can check status of multiple nodes

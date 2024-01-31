@@ -27,7 +27,6 @@ export class Manager extends Client {
   metadata: Metadata;
   config: Config;
   logger: any;
-  owner: string;
   color: ColorResolvable;
   shard_status: boolean;
   cluster?: ClusterClient<Client>;
@@ -55,7 +54,6 @@ export class Manager extends Client {
     this.config = configData;
     this.metadata = new ManifestService().data.metadata.bot;
     this.token = this.config.bot.TOKEN;
-    this.owner = this.config.bot.OWNER_ID;
     this.color = (this.config.bot.EMBED_COLOR || "#2b2d31") as ColorResolvable;
     this.shard_status = false;
 
