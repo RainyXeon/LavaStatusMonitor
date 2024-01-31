@@ -103,7 +103,7 @@ export class EmbedService {
       `
       )
       .setColor(client.color)
-      .setTimestamp();
+      .setTimestamp(Date.now());
   }
 
   magmaStreamStatusGen(client: Manager, data: MagmastreamNode): EmbedBuilder {
@@ -144,6 +144,6 @@ export class EmbedService {
       `
       )
       .setColor(client.color)
-      .setTimestamp();
+      .setTimestamp(Date.now());
   }
 }
