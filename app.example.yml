@@ -3,18 +3,18 @@ bot:
   CHANNEL_ID: "Channel ID"
   EMBED_COLOR: "#2B2D31"
   DEBUG_MODE: false
-  # You can monitor status of multiple nodes
+  # You can monitor status of multiple Lavalink servers!
   NODES: 
-    - name: "It'z Zoldy⚡"
-      host: "139.99.124.43"
-      port: 7779
+    - name: "Name"
+      host: "Host/IP"
+      port: Port
       version: 3
-      auth: "PasswordIsZoldy"
+      auth: "Password"
       secure: false
       
-    - name: "It'z Zoldy⚡"
-      host: "139.99.124.43"
-      port: 7784
+    - name: "Name"
+      host: "Host/IP"
+      port: Port
       version: 4
-      auth: "PasswordIsZoldy"
+      auth: "Password"
       secure: false
