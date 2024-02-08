@@ -1,5 +1,5 @@
 {
-  "name": "byteblaze",
+  "name": "lava-status-monitor",
   "version": "1.0.0",
   "description": "A versatile and powerful music bot for Discord that brings rhythm and melody to your server. This is a big upgrade of Cylane!",
   "exports": "./dist/index.js",
