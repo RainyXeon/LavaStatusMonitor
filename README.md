@@ -1,4 +1,9 @@
 <br />
+<p align="center">
+  <a href="https://github.com/RainyXeon/LavaStatusMonitor">
+    <img src="https://github.com/RainyXeon/LavaStatusMonitor/blob/main/.github/assets/LavaStatusMonitor.png" alt="LavaStatusMonitor" width="200" height="200">
+  </a>
+
   <h1 align="center">LavaStatusMonitor</h1>
 
   <p align="center">A Discord bot that monitors real-time status of Lavalink servers!
@@ -11,10 +16,8 @@
 
 ## 🖼️ Showcase
 
-![help_command](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/help_command.png)
-![song_req](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/song_request.png)
-![playlist_info](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/playlist_info.png)
-![pm_gen](https://raw.githubusercontent.com/RainyXeon/ByteBlaze/dev/.github/assets/pm_gen.png)
+![monitor v3](https://github.com/RainyXeon/LavaStatusMonitor/blob/main/.github/assets/monitor.v3.png)
+![monitor v4](https://github.com/RainyXeon/LavaStatusMonitor/blob/main/.github/assets/monitor.v4.png)
 
 ## 📋 Requirements
 
