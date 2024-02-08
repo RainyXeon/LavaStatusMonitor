@@ -67,6 +67,7 @@ export class EmbedService {
   shoukakuStatusGen(client: Manager, data: ShoukakuNode): EmbedBuilder {
     const parsedCredentials = new URL(data["url"]);
     const lavaMem = this.parseMemory(data.stats?.memory);
+    const secure = parsedCredentials.protocol == "ws:" ? false : true
 
     return new EmbedBuilder()
       .setAuthor({ name: `${data.name} [v3]` })
@@ -96,9 +97,9 @@ export class EmbedService {
         **🔒 Credentials**
         \`\`\`
           Host              | ${parsedCredentials.hostname}
-          Port              | ${parsedCredentials.port}
+          Port              | ${secure ? 443 : parsedCredentials.port}
           Password          | ${data["auth"]}
-          Secure            | ${parsedCredentials.protocol == "ws:" ? false : true}
+          Secure            | ${secure}
         \`\`\`
       `
       )
@@ -137,7 +138,7 @@ export class EmbedService {
         **🔒 Credentials**
         \`\`\`
           Host              | ${data.options.host}
-          Port              | ${data.options.port}
+          Port              | ${data.options.secure ? 443 : data.options.port}
           Password          | ${data.options.password}
           Secure            | ${data.options.secure}
         \`\`\`
