@@ -4,21 +4,21 @@ import { resolve } from "path";
 import { join, dirname } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { Manager } from "../manager.js";
-
+import { RainlinkEvents } from "rainlink";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export class loadLavaV4events {
+export class loadNodeEvents {
   client: Manager;
   constructor(client: Manager) {
     this.client = client;
     this.loader();
   }
   async loader() {
-    let eventsPath = resolve(join(__dirname, "..", "events", "lavalink_v4"));
+    let eventsPath = resolve(join(__dirname, "..", "events", "node"));
     let eventsFile = await readdirRecursive(eventsPath);
     await this.register(eventsFile);
 
-    this.client.logger.loader("[VERSION_4] Lavalink Server Events Loaded!");
+    this.client.logger.loader("Lavalink Server Events Loaded!");
   }
 
   async register(eventsFile: string[]) {
@@ -32,8 +32,8 @@ export class loadLavaV4events {
       };
 
       const eName = splitPath(path);
-      this.client.magmastream.on(
-        eName as "nodeCreate",
+      this.client.rainlink.on(
+        eName as "queueEmpty",
         events.execute.bind(null, this.client)
       );
     });

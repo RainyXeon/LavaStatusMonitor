@@ -8,13 +8,31 @@ bot:
     - name: "Name"
       host: "Host/IP"
       port: Port
-      version: 3
       auth: "Password"
       secure: false
+      # In rainlink, it support lavalink v3, lavalink v4 and nodelink v2 as driver
+      # If you put the wrong driver identify here or not put anything here,
+      # it will fallback to lavalink v4 driver
+      # Driver identify and support range:
+      # | Type     | Support versions | Driver Name       |
+      # | -------- | ---------------- | ----------------- |
+      # | Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
+      # | Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
+      # | Nodelink | v2.0.0 - v2.x.x  | nodelink/v2/nari  |
+      driver: "lavalink/v3/koto"
       
     - name: "Name"
       host: "Host/IP"
       port: Port
-      version: 4
       auth: "Password"
       secure: false
+      # In rainlink, it support lavalink v3, lavalink v4 and nodelink v2 as driver
+      # If you put the wrong driver identify here or not put anything here,
+      # it will fallback to lavalink v4 driver
+      # Driver identify and support range:
+      # | Type     | Support versions | Driver Name       |
+      # | -------- | ---------------- | ----------------- |
+      # | Lavalink | v4.0.0 - v4.x.x  | lavalink/v4/koinu |
+      # | Lavalink | v3.0.0 - v3.7.x  | lavalink/v3/koto  |
+      # | Nodelink | v2.0.0 - v2.x.x  | nodelink/v2/nari  |
+      driver: "lavalink/v4/koinu"

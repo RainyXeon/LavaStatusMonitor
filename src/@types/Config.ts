@@ -19,7 +19,7 @@ export interface NODE_CREDENTIALS {
   name: string;
   host: string;
   port: number;
-  version: number;
+  driver: string;
   auth: string;
   secure: boolean;
 }

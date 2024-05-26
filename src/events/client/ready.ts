@@ -8,8 +8,6 @@ export default class {
   async execute(client: Manager) {
     client.logger.info(`Logged in ${client.user!.tag}`);
 
-    await client.magmastream.init(String(client.user?.id));
-
     setInterval(() => {
       client.user!.setPresence({
         activities: [

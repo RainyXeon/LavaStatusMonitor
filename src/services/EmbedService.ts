@@ -1,46 +1,24 @@
+import { RainlinkNode } from "rainlink";
 import { EmbedBuilder, TextChannel } from "discord.js";
 import { Manager } from "../manager.js";
 import { stripIndents } from "common-tags";
 import prettyMilliseconds from "pretty-ms";
 import { URL } from "url";
-import { Node as ShoukakuNode } from "shoukaku";
-import { Node as MagmastreamNode } from "magmastream";
 import { Cron } from "croner";
 
 export class EmbedService {
   constructor(client: Manager, fetchChannel: TextChannel) {
-    this.magmaStream(client, fetchChannel);
-    this.shoukaku(client, fetchChannel);
-  }
-
-  async magmaStream(client: Manager, fetchChannel: TextChannel) {
-    client.magmastream.nodes.map(async (data) => {
+    client.rainlink.nodes.full.map(async (data) => {
       // Send msg
       const msg = await fetchChannel.send({
-        embeds: [this.magmaStreamStatusGen(client, data)],
+        embeds: [this.statusGen(client, data[1])],
       });
 
       // Update msg
 
       Cron("0 */1 * * * *", async () => {
         msg.edit({
-          embeds: [this.magmaStreamStatusGen(client, data)],
-        });
-      });
-    });
-  }
-
-  shoukaku(client: Manager, fetchChannel: TextChannel) {
-    client.shoukaku.nodes.forEach(async (data) => {
-      // Send msg
-      const msg = await fetchChannel.send({
-        embeds: [this.shoukakuStatusGen(client, data)],
-      });
-
-      // Update msg
-      Cron("0 */1 * * * *", async () => {
-        msg.edit({
-          embeds: [this.shoukakuStatusGen(client, data)],
+          embeds: [this.statusGen(client, data[1])],
         });
       });
     });
@@ -64,60 +42,21 @@ export class EmbedService {
     };
   }
 
-  shoukakuStatusGen(client: Manager, data: ShoukakuNode): EmbedBuilder {
-    const parsedCredentials = new URL(data["url"]);
+  statusGen(client: Manager, data: RainlinkNode): EmbedBuilder {
     const lavaMem = this.parseMemory(data.stats?.memory);
-    const secure = parsedCredentials.protocol == "ws:" ? false : true
+    const driverIdRegex = /(.*)\/v(.*)\/(.*)/;
+    const asn = driverIdRegex.exec(data.driver.id)![1];
+    const version = driverIdRegex.exec(data.driver.id)![2];
+    const codename = driverIdRegex.exec(data.driver.id)![3];
 
     return new EmbedBuilder()
-      .setAuthor({ name: `${data.name} [v3]` })
+      .setAuthor({ name: `${data.options.name} [v${version}]` })
       .setDescription(
         stripIndents`
         **📊 Status**
         \`\`\`
           Current
-          ├── Status        | ${data.state == 1 ? "🟢 Online" : "🔴 Offline"}
-          └── Uptime        | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
-
-          Player
-          ├── Total         | ${data.stats?.players}
-          └── Used          | ${data.stats?.playingPlayers}
-  
-          CPU
-          ├── Core          | ${data.stats?.cpu.cores}
-          ├── System Load   | ${data.stats?.cpu.systemLoad.toFixed(2)}%
-          └── Lavalink Load | ${data.stats?.cpu.lavalinkLoad.toFixed(2)}%
-  
-          Memory
-          ├── Used          | ${lavaMem.used} (MB)
-          ├── Free          | ${lavaMem.free} (MB)
-          ├── Reservable    | ${lavaMem.reservable} (MB)
-          └── Allocated     | ${lavaMem.allocated} (MB)
-        \`\`\`
-        **🔒 Credentials**
-        \`\`\`
-          Host              | ${parsedCredentials.hostname}
-          Port              | ${secure ? 443 : parsedCredentials.port}
-          Password          | ${data["auth"]}
-          Secure            | ${secure}
-        \`\`\`
-      `
-      )
-      .setColor(client.color)
-      .setTimestamp(Date.now());
-  }
-
-  magmaStreamStatusGen(client: Manager, data: MagmastreamNode): EmbedBuilder {
-    const lavaMem = this.parseMemory(data.stats?.memory);
-
-    return new EmbedBuilder()
-      .setAuthor({ name: `${data.options.identifier} [v4]` })
-      .setDescription(
-        stripIndents`
-        **📊 Status**
-        \`\`\`
-          Current
-          ├── Status        | ${data.connected ? "🟢 Online" : "🔴 Offline"}
+          ├── Status        | ${data.state == 0 ? "🟢 Online" : "🔴 Offline"}
           └── Uptime        | ${data.stats?.uptime ? prettyMilliseconds(data.stats.uptime) : "Not avalible"}
 
           Player
@@ -134,12 +73,17 @@ export class EmbedService {
           ├── Free          | ${lavaMem.free} (MB)
           ├── Reservable    | ${lavaMem.reservable} (MB)
           └── Allocated     | ${lavaMem.allocated} (MB)
+
+          Driver
+          ├── Codename      | ${codename}
+          ├── Version       | v${version}
+          └── Type          | ${asn}
         \`\`\`
         **🔒 Credentials**
         \`\`\`
           Host              | ${data.options.host}
           Port              | ${data.options.secure ? 443 : data.options.port}
-          Password          | ${data.options.password}
+          Password          | ${data.options.auth}
           Secure            | ${data.options.secure}
         \`\`\`
       `
